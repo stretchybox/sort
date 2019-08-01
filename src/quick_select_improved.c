@@ -24,23 +24,24 @@ int quick_select(int A[], int n, int l) {
 	pivot	= A[n / 2];
 	A[n / 2] = A[0];
 	A[0]	 = pivot;
-	for (i = j = k = 1; i < n; i++) {
-		if (A[i] < pivot) {
+	for (i = j = 1; i < n; i++) {
+		if (A[i] <= pivot) {
 			swap(A + i, A + j);
 			j++;
-			k++;
-		} else if (A[i] <= pivot) {
+		}
+	}
+	for (i = k = 1; i < j; i++) {
+		if (A[i] < pivot) {
 			swap(A + i, A + k);
 			k++;
 		}
 	}
-
-	if (j <= l + 1 && l + 1 <= k)
+	if (k <= l + 1 && l + 1 < j)
 		return pivot;
 	else if (j < l + 1)
-		return quick_select(A + k, n - k, l - k);
+		return quick_select(A + j, n - j, l - j);
 	else
-		return quick_select(A + 1, j - 1, l);
+		return quick_select(A + 1, k - 1, k);
 }
 
 int main() {
@@ -54,7 +55,8 @@ int main() {
 	// すべての要素が同じ場合でも計算が早く終わるか確認する
 
 	for (i = 0; i < N; i++) {
-		if (quick_select(A, N, i) != i) printf("ERROR %d %d\n", i, quick_select(A, N, i));
-		//printf("%d th element is %d\n", i, quick_select(A, N, i));
+		if (quick_select(A, N, i) != i)
+			printf("ERROR %d %d\n", i, quick_select(A, N, i));
+		// printf("%d th element is %d\n", i, quick_select(A, N, i));
 	}
 }

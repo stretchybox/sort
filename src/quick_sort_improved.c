@@ -24,19 +24,21 @@ void quick_sort(int A[], int n) {
 	pivot	= A[n / 2];
 	A[n / 2] = A[0];
 	A[0]	 = pivot;
-	for (i = j = k = 1; i < n; i++) {
-		if (A[i] < pivot) {
+	for (i = j = 1; i < n; i++) {
+		if (A[i] <= pivot) {
 			swap(A + i, A + j);
 			j++;
-			k++;
-		} else if (A[i] <= pivot) {
+		}
+	}
+	for (i = k = 1; i < j; i++) {
+		if (A[i] < pivot) {
 			swap(A + i, A + k);
 			k++;
 		}
 	}
-	swap(A, A + k - 1);
-	quick_sort(A + k, n - k); //大きい方をソート
-	quick_sort(A, j - 1);	 //小さい方をソート
+	swap(A, A + j - 1);
+	quick_sort(A + j, n - j); //大きい方をソート
+	quick_sort(A, k - 1);	 //小さい方をソート
 }
 
 int main() {
